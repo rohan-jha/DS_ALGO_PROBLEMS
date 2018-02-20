@@ -29,4 +29,14 @@ public class MathUtil {
 		}
 		return gcd;
 	}
+	
+	/**
+	 * 
+	 * @param i
+	 * @param j
+	 * @return Absolute value of difference between (i,j) without sign
+	 */
+	public static int absDiff(int i, int j){
+		return (i>j)?(i-j):(j-i);
+	}
 }

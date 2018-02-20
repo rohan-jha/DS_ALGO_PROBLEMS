@@ -1,6 +1,12 @@
 package ds.arrays.util;
 
-public class ArrayUtil {
+public class ArrayUtil<E> {
+	
+	public void printGenericArray(E[] arr){
+		for(E i:arr){
+			System.out.print(i.toString()+",");
+		}	
+	}
 
 	/**
 	 * Print array values in order
@@ -51,6 +57,20 @@ public class ArrayUtil {
 			arr[i]=arr[j];
 			arr[j]=temp;
 		}
+	}
+	
+	/**
+	 * Reverses the array elements recursively within given indexes
+	 * 
+	 * @param arr : input array
+	 * @param i : start index for reversing
+	 * @param j : end index for reversing
+	 */
+	public static void reverseRecursively(int arr[], int i, int j){
+	    if (i < j){
+	    	swapArrVal(arr, i, j);
+	    	reverseRecursively(arr, ++i, --j);
+	    }
 	}
 	
 	/**

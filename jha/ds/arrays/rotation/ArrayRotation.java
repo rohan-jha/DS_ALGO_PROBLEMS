@@ -3,18 +3,36 @@ package ds.arrays.rotation;
 import ds.arrays.util.ArrayUtil;
 import ds.math.util.MathUtil;
 
-public class ArrayRotation {
+public class ArrayRotation<E> {
 	
 	public static void main(String[] args){
 		int arr[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13};
-		rotate(arr, 4, ArrayRotationConstants.LEFT);
+		printRotatedArray(arr,5, ArrayRotationConstants.RIGHT);
+		//rotate(arr, 4, ArrayRotationConstants.LEFT);
 		//blockRotate(arr, 13, ArrayRotationConstants.LEFT);
 		/*backRotate(arr, 5, ArrayRotationConstants.RIGHT);
 		gcdRotate(arr, 11, ArrayRotationConstants.RIGHT);
 		reverseRotate(arr, 11, ArrayRotationConstants.RIGHT);
 		reverseRotate(arr, 7, ArrayRotationConstants.RIGHT);*/
-		ArrayUtil.printArray(arr);
-		System.out.println(findPivotSortedRotatedArray(arr, 0, arr.length-1));
+		//ArrayUtil.printArray(arr);
+		//System.out.println(findPivotSortedRotatedArray(arr, 0, arr.length-1));
+	}
+	
+	/**
+	 * Q: Print the rotated array
+	 * 
+	 * Algo: For printing we dont need to actually rotate the array...just iterate from d till end and then from 0 till d-1
+	 * 
+	 * @param arr : Input array
+	 * @param d : rotate by d number of elements
+	 * @param dir : direction of rotation
+	 */
+	public static void printRotatedArray(int[] arr, int d, int dir){
+		int size = arr.length;
+		if(dir == ArrayRotationConstants.RIGHT) d = size-d;
+		for(int i=0;i<size;i++){
+			System.out.print(arr[(i+d)%size]+", ");
+		}
 	}
 	
 	/**
@@ -60,6 +78,41 @@ public class ArrayRotation {
 		}
 	}
 
+	/**
+	 * char implementation of method above
+	 * 
+	 * @param arr
+	 * @param d
+	 * @param dir
+	 */
+	public void charRotate(char[] arr, int d, int dir){
+		if(d<=0) return;
+		int size = arr.length;
+		while(d>size-1){
+			d=d-size;
+		}
+		if(d==0) return;
+		if(dir == ArrayRotationConstants.LEFT) d = size-d;
+		/* d is a number from 1 to arr.length-1*/
+		int counter = 0;
+		int startIndex = 0;
+		int nextIndex = 0;
+		while(counter<size){
+			counter++;
+			nextIndex += d;
+			if(nextIndex > size-1){
+				nextIndex -= size;
+			}
+			if(nextIndex == startIndex){
+				startIndex++; nextIndex++;
+			}else{
+				char temp = arr[nextIndex];
+				arr[nextIndex] = arr[startIndex];
+				arr[startIndex] = temp;
+			}
+		}
+	}
+	
 	/**
 	 * Algo4:
 	 * Initialize A = arr[0..d-1] and B = arr[d..n-1]
@@ -195,10 +248,10 @@ public class ArrayRotation {
 	
 	/**
 	 * Algo7: Rotate by using reversal of elements
-	 * rotate(arr[], d, n)
-     * reverse(arr[], 1, d) ;
-     * reverse(arr[], d + 1, n);
-  	 * reverse(arr[], l, n);
+	 * Problem: rotate(arr[], d, n)
+     * Steps: 1. reverse(arr[], 1, d) ;
+     *        2. reverse(arr[], d + 1, n);
+  	 *        3. reverse(arr[], l, n);
 	 * 
 	 * {Time: O(n) _ Space: O(1)}
 	 * 
@@ -248,5 +301,23 @@ public class ArrayRotation {
 		
         return findPivotSortedRotatedArray(arr, mid + 1, j);
 	}
+	
+	/**
+	 * Rotate the subarray right with d=1 index
+	 * 
+	 * @param arr
+	 * @param i
+	 * @param j
+	 */
+	public static void rotateSubArray(int arr[], int i, int j){
+		if(i>=j) return;
+		for(int index=i+1;index<=j;index++){
+			ArrayUtil.swapArrVal(arr, i, index);
+		}
+	}
+	
+	/**
+	 * Q. Rotate a subarray with given d, i, j
+	 */
 	
 }
